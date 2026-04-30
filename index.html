@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NoteDigest — AI Notes Summarizer</title>
+  <meta name="description" content="NoteDigest: A premium AI notes summarizer. Paste or upload any document and get instant summaries." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;700;800&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+
+  <!-- Background -->
+  <div class="aurora-bg">
+    <div class="aurora-orb orb-1"></div>
+    <div class="aurora-orb orb-2"></div>
+    <div class="aurora-orb orb-3"></div> 
+  </div>
+
+  <!-- Navbar -->
+  <nav id="navbar" class="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">
+        <span class="logo-icon">✨</span>
+        <span>Note<span class="accent">Digest</span></span>
+      </a>
+      <div class="nav-actions">
+        <button id="history-toggle" class="magnetic-btn btn-secondary" aria-label="View History">
+          History
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="hero" class="hero">
+    <h1 class="hero-title">Digest <span class="accent">Intelligence</span></h1>
+    <p class="hero-desc">Experience the next generation of AI summarization. Upload your notes, papers, or technical docs, and let our algorithms distill the essence.</p>
+  </section>
+
+  <!-- Input Section -->
+  <section id="input-section" class="section input-section">
+    <div class="container">
+      <div class="tilt-card">
+        <div class="input-card glass-panel">
+          <div class="input-header">
+            <h2>Process Document</h2>
+            <div class="sample-buttons">
+              <button class="sample-btn" data-sample="lecture" id="sample-lecture">Lecture</button>
+              <button class="sample-btn" data-sample="article" id="sample-article">Article</button>
+              <button class="sample-btn" data-sample="technical" id="sample-technical">Technical</button>
+            </div>
+          </div>
+          
+          <div class="textarea-wrapper">
+            <textarea id="email-input" class="email-textarea" placeholder="Paste your text or drop a file here..." rows="8"></textarea>
+            <div id="drop-zone" class="drop-zone">
+              <p>Drop file to analyze</p>
+            </div>
+            <input type="file" id="file-input" accept=".txt,.md,.html,.htm,.pdf,.pptx,.doc,.rtf" hidden />
+          </div>
+
+          <div class="input-controls">
+            <div class="slider-group">
+              <label for="summary-length" style="color:var(--text-secondary);font-size:0.875rem;">Depth</label>
+              <input type="range" id="summary-length" min="2" max="10" value="4" />
+              <span id="length-label" class="length-value">4 Lines</span>
+            </div>
+            <div class="action-buttons" style="display:flex;gap:1rem;">
+              <button id="upload-btn" class="btn-secondary magnetic-btn">
+                Upload File
+              </button>
+              <button id="summarize-btn" class="magnetic-btn" disabled>
+                Synthesize
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Loading State -->
+  <section id="loading-section" class="section loading-section hidden">
+    <div class="container text-center">
+      <div class="tilt-card">
+        <div class="loading-card glass-panel" style="padding:4rem;text-align:center;max-width:500px;margin:0 auto;">
+          <div class="cyber-scanner">
+            <div class="scanner-box"></div>
+            <div class="scanner-beam"></div>
+          </div>
+          <h3>Synthesizing Data</h3>
+          <p class="loading-step" id="loading-step">Initializing matrices...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results Section -->
+  <section id="results-section" class="section results-section hidden">
+    <div class="container">
+      
+      <!-- Stats Bar -->
+      <div class="stats-bar">
+        <div class="stat-item glass-panel tilt-card">
+          <span class="stat-value" id="stat-original-words">0</span>
+          <span class="stat-label">Source Words</span>
+        </div>
+        <div class="stat-item glass-panel tilt-card">
+          <span class="stat-value" id="stat-summary-words">0</span>
+          <span class="stat-label">Digest Words</span>
+        </div>
+        <div class="stat-item glass-panel tilt-card">
+          <span class="stat-value accent" id="stat-reduction">0%</span>
+          <span class="stat-label">Compression</span>
+        </div>
+        <div class="stat-item glass-panel tilt-card">
+          <span class="stat-value" id="stat-read-time">0m</span>
+          <span class="stat-label">Time Saved</span>
+        </div>
+      </div>
+
+      <!-- Main Grid -->
+      <div class="results-grid">
+        <div class="tilt-card">
+          <div class="result-card glass-panel summary-card">
+            <div class="card-header">
+              <h3>Core Synthesis</h3>
+              <button id="copy-summary" class="icon-btn" title="Copy to clipboard">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+            </div>
+            <div id="summary-content" class="card-body"></div>
+          </div>
+        </div>
+
+        <div class="side-panel">
+          <div class="tilt-card">
+            <div class="glass-panel" style="padding: 1.5rem;">
+              <div class="meta-grid">
+                <div>
+                  <span class="meta-label">Domain</span>
+                  <span class="meta-value accent" id="sentiment-badge">General</span>
+                </div>
+                <div>
+                  <span class="meta-label">Complexity</span>
+                  <span class="meta-value" id="priority-badge">Easy</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tilt-card">
+            <div class="glass-panel" style="padding: 1.5rem;">
+              <h4 style="margin-bottom:1rem;color:var(--accent-cyan);font-family:var(--font-heading);">Key Entities</h4>
+              <ul id="action-items" class="action-list"></ul>
+            </div>
+          </div>
+
+          <div class="tilt-card">
+            <div class="glass-panel" style="padding: 1.5rem;">
+              <h4 style="margin-bottom:1rem;color:var(--accent-violet);font-family:var(--font-heading);">Extraction Points</h4>
+              <ul id="key-points" class="key-list"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:4rem;">
+        <button id="new-email-btn" class="magnetic-btn btn-secondary">
+          Analyze Another
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- History Panel -->
+  <aside id="history-panel" class="history-panel">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">
+      <h3 style="font-family:var(--font-heading);font-size:1.5rem;">Archive</h3>
+      <button id="history-close" class="icon-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div id="history-list" style="flex:1;overflow-y:auto;"></div>
+    <button id="clear-history" class="btn-secondary" style="margin-top:1rem;width:100%;">Clear Archive</button>
+  </aside>
+  <div id="history-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:1999;opacity:0;pointer-events:none;transition:opacity 0.4s;"></div>
+
+  <!-- Toast -->
+  <div id="toast" style="position:fixed;bottom:2rem;left:50%;transform:translate(-50%,20px);background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);padding:0.75rem 2rem;border-radius:99px;opacity:0;pointer-events:none;transition:all 0.4s;z-index:3000;">
+    <span id="toast-message"></span>
+  </div>
+
+  <script src="email-parser.js"></script>
+  <script src="file-readers.js"></script>
+  <script src="summarizer.js"></script>
+  <script src="analyzer.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
