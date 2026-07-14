@@ -170,7 +170,9 @@ Error responses should be consistent and informative. Include an error code, hum
     newEmailBtn.addEventListener('click', resetToInput);
 
     // Theme
-    themeToggle.addEventListener('click', toggleTheme);
+    if (themeToggle) {
+      themeToggle.addEventListener('click', toggleTheme);
+    }
 
     // History
     historyToggle.addEventListener('click', openHistory);
@@ -254,27 +256,33 @@ Error responses should be consistent and informative. Include an error code, hum
     // Animate loading steps
     const stepPromise = animateSteps(steps, 200);
 
-    // Run NLP pipeline
-    const parsed = DocParser.parse(raw);
-    const bodyText = parsed.body || raw;
-    const numSentences = parseInt(summaryLength.value, 10);
-    const summaryResult = Summarizer.summarize(bodyText, numSentences);
-    const analysis = Analyzer.analyze(bodyText, summaryResult);
+    try {
+      // Run NLP pipeline
+      const parsed = DocParser.parse(raw);
+      const bodyText = parsed.body || raw;
+      const numSentences = parseInt(summaryLength.value, 10);
+      const summaryResult = Summarizer.summarize(bodyText, numSentences);
+      const analysis = Analyzer.analyze(bodyText, summaryResult);
 
-    // Wait for animation to finish (min visual time)
-    await stepPromise;
+      // Wait for animation to finish (min visual time)
+      await stepPromise;
 
-    // Store result
-    currentSummary = { parsed, summaryResult, analysis, timestamp: Date.now() };
+      // Store result
+      currentSummary = { parsed, summaryResult, analysis, timestamp: Date.now() };
 
-    // Render results
-    renderResults(currentSummary);
+      // Render results
+      renderResults(currentSummary);
 
-    // Save to history
-    saveToHistory(currentSummary);
+      // Save to history
+      saveToHistory(currentSummary);
 
-    // Show results
-    showSection('results');
+      // Show results
+      showSection('results');
+    } catch (err) {
+      console.error('Error in summarization pipeline:', err);
+      showToast('Error synthesizing document.');
+      showSection('input');
+    }
   }
 
   async function animateSteps(steps, delay) {

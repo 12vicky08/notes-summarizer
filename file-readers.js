@@ -116,12 +116,16 @@ const FileReaders = (() => {
 
         // Very basic XML tag stripping for text extraction
         // PPTX stores text in <a:t> elements mostly
-        const textMatches = xml.match(/<a:t>.*?<\/a:t>/g) || [];
-        const slideText = textMatches.map(tag => tag.replace(/<\/?a:t>/g, '')).join(' ');
+        const textMatches = xml.match(/<a:t[^>]*>.*?<\/a:t>/g) || [];
+        const slideText = textMatches.map(tag => tag.replace(/<\/?a:t[^>]*>/g, '')).join(' ');
 
         if (slideText) {
           fullText += slideText + '\n\n';
         }
+      }
+
+      if (!fullText.trim()) {
+        throw new Error("No readable text found in PPTX");
       }
 
       return {
