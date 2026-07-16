@@ -75,6 +75,9 @@
               <button id="upload-btn" class="btn-secondary magnetic-btn">
                 Upload File
               </button>
+              <button id="clear-btn" class="btn-secondary magnetic-btn" disabled>
+                Clear
+              </button>
               <button id="summarize-btn" class="magnetic-btn" disabled>
                 Synthesize
               </button>
@@ -131,7 +134,7 @@
           <div class="result-card glass-panel summary-card">
             <div class="card-header">
               <h3>Core Synthesis</h3>
-              <button id="copy-summary" class="icon-btn" title="Copy to clipboard">
+              <button id="copy-summary" class="icon-btn" title="Copy to clipboard" aria-label="Copy to clipboard">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
               </button>
             </div>
@@ -189,7 +192,7 @@
       </button>
     </div>
     <div id="history-list" style="flex:1;overflow-y:auto;"></div>
-    <button id="clear-history" class="btn-secondary" style="margin-top:1rem;width:100%;">Clear Archive</button>
+    <button id="clear-history" class="btn-secondary" style="margin-top:1rem;width:100%;" aria-label="Clear Archive">Clear Archive</button>
   </aside>
   <div id="history-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:1999;opacity:0;pointer-events:none;transition:opacity 0.4s;"></div>
 
