@@ -4,8 +4,6 @@ NoteDigest is a premium, client-side, AI-powered document summarizer that distil
 
 Built with privacy as the core philosophy, **everything runs 100% in your browser**—no data ever leaves your device.
 
-![UI Preview](https://via.placeholder.com/1000x500.png?text=Aurora+Glass+UI) *(Add a screenshot here later)*
-
 ## Features
 
 - 🌌 **"Aurora Glass" UI**: A visually stunning, modern interface featuring smooth 3D tilt tracking, magnetic buttons, and animated glassmorphism elements.

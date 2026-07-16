@@ -10,6 +10,7 @@
   const emailInput      = $('email-input');
   const summarizeBtn    = $('summarize-btn');
   const uploadBtn       = $('upload-btn');
+  const clearBtn        = $('clear-btn');
   const fileInput       = $('file-input');
   const dropZone        = $('drop-zone');
   const summaryLength   = $('summary-length');
@@ -119,6 +120,11 @@ Error responses should be consistent and informative. Include an error code, hum
     emailInput.addEventListener('input', updateSummarizeBtn);
     summarizeBtn.addEventListener('click', handleSummarize);
     uploadBtn.addEventListener('click', () => fileInput.click());
+    clearBtn.addEventListener('click', () => {
+      emailInput.value = '';
+      updateSummarizeBtn();
+      emailInput.focus();
+    });
     fileInput.addEventListener('change', handleFileUpload);
 
     // Summary length slider
@@ -232,8 +238,10 @@ Error responses should be consistent and informative. Include an error code, hum
 
   // ── Summarize ───────────────────────────────
   function updateSummarizeBtn() {
-    const hasText = emailInput.value.trim().length > 20;
+    const textLength = emailInput.value.trim().length;
+    const hasText = textLength > 20;
     summarizeBtn.disabled = !hasText;
+    clearBtn.disabled = textLength === 0;
   }
 
   async function handleSummarize() {
@@ -405,7 +413,7 @@ Error responses should be consistent and informative. Include an error code, hum
     if (!currentSummary) return;
     try {
       await navigator.clipboard.writeText(currentSummary.summaryResult.summary);
-      showToast('Summary copied to clipboard! ✓');
+      showCopyFeedback();
     } catch {
       const ta = document.createElement('textarea');
       ta.value = currentSummary.summaryResult.summary;
@@ -413,8 +421,21 @@ Error responses should be consistent and informative. Include an error code, hum
       ta.select();
       document.execCommand('copy');
       document.body.removeChild(ta);
-      showToast('Summary copied! ✓');
+      showCopyFeedback();
     }
+  }
+
+  let copyFeedbackTimeout = null;
+  const copyOriginalHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+
+  function showCopyFeedback() {
+    showToast('Summary copied! ✓');
+    if (copyFeedbackTimeout) clearTimeout(copyFeedbackTimeout);
+    copySummaryBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+    copyFeedbackTimeout = setTimeout(() => {
+      copySummaryBtn.innerHTML = copyOriginalHTML;
+      copyFeedbackTimeout = null;
+    }, 2000);
   }
 
   // ── History ─────────────────────────────────
