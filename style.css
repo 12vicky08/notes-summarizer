@@ -157,7 +157,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Hide theme toggle since we are strict dark aurora */
-#theme-toggle { display: none; }
+#theme-toggle { display: inline-block; }
 
 /* ── Hero ────────────────────────────────── */
 .hero {
@@ -461,4 +461,27 @@ input[type="range"]::-webkit-slider-thumb {
   .results-grid { grid-template-columns: 1fr; }
   .hero-title { font-size: 3rem; }
   .input-card { padding: 1.5rem; }
+}
+
+/* ── Light Theme Variables ───────────────── */
+[data-theme="light"] {
+  --bg-void: #f8fafc;
+  --bg-surface: rgba(255, 255, 255, 0.7);
+
+  --accent-cyan: #0891b2;
+  --accent-cyan-glow: rgba(8, 145, 178, 0.2);
+  --accent-violet: #6d28d9;
+  --accent-violet-glow: rgba(109, 40, 217, 0.2);
+  --accent-fuchsia: #c026d3;
+
+  --text-primary: #0f172a;
+  --text-secondary: rgba(15, 23, 42, 0.8);
+  --text-muted: rgba(15, 23, 42, 0.5);
+
+  --glass-bg: rgba(255, 255, 255, 0.5);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-highlight: rgba(255, 255, 255, 0.5);
+
+  --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.05);
+  --shadow-neon: 0 0 20px var(--accent-violet-glow);
 }

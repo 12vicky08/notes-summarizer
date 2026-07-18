@@ -21,6 +21,7 @@
   const loadingStep     = $('loading-step');
   const summaryContent  = $('summary-content');
   const copySummaryBtn  = $('copy-summary');
+  const downloadSummaryBtn = $('download-summary');
   const newEmailBtn     = $('new-email-btn');
   const themeToggle     = $('theme-toggle');
   const historyToggle   = $('history-toggle');
@@ -171,6 +172,7 @@ Error responses should be consistent and informative. Include an error code, hum
 
     // Copy
     copySummaryBtn.addEventListener('click', handleCopy);
+    if (downloadSummaryBtn) downloadSummaryBtn.addEventListener('click', handleDownload);
 
     // New document
     newEmailBtn.addEventListener('click', resetToInput);
@@ -438,6 +440,18 @@ Error responses should be consistent and informative. Include an error code, hum
     }, 2000);
   }
 
+
+  // ── Download ────────────────────────────────
+  function handleDownload() {
+    if (!currentSummary) return;
+    const blob = new Blob([currentSummary.summaryResult.summary], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'NoteDigest_Summary.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
   // ── History ─────────────────────────────────
   function getHistory() {
     try {

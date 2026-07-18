@@ -30,6 +30,7 @@
         <span>Note<span class="accent">Digest</span></span>
       </a>
       <div class="nav-actions">
+        <button id="theme-toggle" class="magnetic-btn btn-secondary" aria-label="Toggle Theme">Theme</button>
         <button id="history-toggle" class="magnetic-btn btn-secondary" aria-label="View History">
           History
         </button>
@@ -51,9 +52,9 @@
           <div class="input-header">
             <h2>Process Document</h2>
             <div class="sample-buttons">
-              <button class="sample-btn" data-sample="lecture" id="sample-lecture">Lecture</button>
-              <button class="sample-btn" data-sample="article" id="sample-article">Article</button>
-              <button class="sample-btn" data-sample="technical" id="sample-technical">Technical</button>
+              <button class="sample-btn" data-sample="lecture" id="sample-lecture" aria-label="Load lecture sample" title="Load lecture sample">Lecture</button>
+              <button class="sample-btn" data-sample="article" id="sample-article" aria-label="Load article sample" title="Load article sample">Article</button>
+              <button class="sample-btn" data-sample="technical" id="sample-technical" aria-label="Load technical sample" title="Load technical sample">Technical</button>
             </div>
           </div>
           
@@ -72,13 +73,13 @@
               <span id="length-label" class="length-value">4 Lines</span>
             </div>
             <div class="action-buttons" style="display:flex;gap:1rem;">
-              <button id="upload-btn" class="btn-secondary magnetic-btn">
+              <button id="upload-btn" class="btn-secondary magnetic-btn" aria-label="Upload File" title="Upload File">
                 Upload File
               </button>
-              <button id="clear-btn" class="btn-secondary magnetic-btn" disabled>
+              <button id="clear-btn" class="btn-secondary magnetic-btn" aria-label="Clear text" title="Clear text" disabled>
                 Clear
               </button>
-              <button id="summarize-btn" class="magnetic-btn" disabled>
+              <button id="summarize-btn" class="magnetic-btn" aria-label="Synthesize text" title="Synthesize text" disabled>
                 Synthesize
               </button>
             </div>
@@ -137,6 +138,9 @@
               <button id="copy-summary" class="icon-btn" title="Copy to clipboard" aria-label="Copy to clipboard">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
               </button>
+              <button id="download-summary" class="icon-btn" title="Download summary" aria-label="Download summary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </button>
             </div>
             <div id="summary-content" class="card-body"></div>
           </div>
@@ -175,7 +179,7 @@
       </div>
 
       <div style="text-align:center;margin-top:4rem;">
-        <button id="new-email-btn" class="magnetic-btn btn-secondary">
+        <button id="new-email-btn" class="magnetic-btn btn-secondary" aria-label="Analyze another document" title="Analyze another document">
           Analyze Another
         </button>
       </div>
@@ -187,7 +191,7 @@
   <aside id="history-panel" class="history-panel">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">
       <h3 style="font-family:var(--font-heading);font-size:1.5rem;">Archive</h3>
-      <button id="history-close" class="icon-btn">
+      <button id="history-close" class="icon-btn" aria-label="Close history" title="Close history">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
