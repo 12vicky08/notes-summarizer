@@ -56,7 +56,7 @@ The application logic is broken down into modular files:
 - `summarizer.js`: The core NLP engine running the mathematical TextRank algorithms.
 - `analyzer.js`: Evaluates domain topology, reading complexity, and word reduction statistics.
 - `file-readers.js`: Handles binary and complex file processing (PDFs & PPTX).
-- `email-parser.js`: Generic text cleaner and formatter.
+- `doc-parser.js`: Generic text cleaner and formatter.
 - `style.css`: The complete "Aurora Glass" design system.
 
 ## Author

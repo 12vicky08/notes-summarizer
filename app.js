@@ -7,7 +7,7 @@
 
   // ── DOM References ──────────────────────────
   const $ = id => document.getElementById(id);
-  const emailInput      = $('email-input');
+  const documentInput      = $('document-input');
   const summarizeBtn    = $('summarize-btn');
   const uploadBtn       = $('upload-btn');
   const clearBtn        = $('clear-btn');
@@ -22,7 +22,7 @@
   const summaryContent  = $('summary-content');
   const copySummaryBtn  = $('copy-summary');
   const downloadSummaryBtn = $('download-summary');
-  const newEmailBtn     = $('new-email-btn');
+  const newDocumentBtn     = $('new-document-btn');
   const themeToggle     = $('theme-toggle');
   const historyToggle   = $('history-toggle');
   const historyPanel    = $('history-panel');
@@ -118,13 +118,13 @@ Error responses should be consistent and informative. Include an error code, hum
   // ── Event Binding ───────────────────────────
   function bindEvents() {
     // Input
-    emailInput.addEventListener('input', updateSummarizeBtn);
+    documentInput.addEventListener('input', updateSummarizeBtn);
     summarizeBtn.addEventListener('click', handleSummarize);
     uploadBtn.addEventListener('click', () => fileInput.click());
     clearBtn.addEventListener('click', () => {
-      emailInput.value = '';
+      documentInput.value = '';
       updateSummarizeBtn();
-      emailInput.focus();
+      documentInput.focus();
     });
     fileInput.addEventListener('change', handleFileUpload);
 
@@ -134,7 +134,7 @@ Error responses should be consistent and informative. Include an error code, hum
     });
 
     // Keyboard shortcut: Ctrl+Enter to summarize
-    emailInput.addEventListener('keydown', (e) => {
+    documentInput.addEventListener('keydown', (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
         e.preventDefault();
         if (!summarizeBtn.disabled) handleSummarize();
@@ -162,9 +162,9 @@ Error responses should be consistent and informative. Include an error code, hum
       btn.addEventListener('click', () => {
         const key = btn.dataset.sample;
         if (SAMPLES[key]) {
-          emailInput.value = SAMPLES[key];
+          documentInput.value = SAMPLES[key];
           updateSummarizeBtn();
-          emailInput.focus();
+          documentInput.focus();
           showToast('Sample document loaded!');
         }
       });
@@ -175,7 +175,7 @@ Error responses should be consistent and informative. Include an error code, hum
     if (downloadSummaryBtn) downloadSummaryBtn.addEventListener('click', handleDownload);
 
     // New document
-    newEmailBtn.addEventListener('click', resetToInput);
+    newDocumentBtn.addEventListener('click', resetToInput);
 
     // Theme
     if (themeToggle) {
@@ -240,14 +240,14 @@ Error responses should be consistent and informative. Include an error code, hum
 
   // ── Summarize ───────────────────────────────
   function updateSummarizeBtn() {
-    const textLength = emailInput.value.trim().length;
+    const textLength = documentInput.value.trim().length;
     const hasText = textLength > 20;
     summarizeBtn.disabled = !hasText;
     clearBtn.disabled = textLength === 0;
   }
 
   async function handleSummarize() {
-    const raw = emailInput.value.trim();
+    const raw = documentInput.value.trim();
     if (raw.length < 20) return;
 
     // Show loading
@@ -365,11 +365,11 @@ Error responses should be consistent and informative. Include an error code, hum
   }
 
   function resetToInput() {
-    emailInput.value = '';
+    documentInput.value = '';
     currentSummary = null;
     updateSummarizeBtn();
     showSection('input');
-    emailInput.focus();
+    documentInput.focus();
   }
 
   // ── File Handling ───────────────────────────
@@ -384,10 +384,10 @@ Error responses should be consistent and informative. Include an error code, hum
   }
 
   async function processFile(file) {
-    const valid = ['.txt', '.md', '.html', '.htm', '.rtf', '.pdf', '.pptx', '.ppt'];
+    const valid = ['.txt', '.md', '.html', '.htm', '.rtf', '.pdf', '.pptx', '.ppt', '.csv', '.json'];
     const ext = '.' + file.name.split('.').pop().toLowerCase();
     if (!valid.includes(ext)) {
-      showToast('Unsupported file type. Use .pdf, .pptx, .txt, .md, or .html.');
+      showToast('Unsupported file type. Use .pdf, .pptx, .txt, .md, .html, .csv, or .json.');
       return;
     }
 
@@ -400,7 +400,7 @@ Error responses should be consistent and informative. Include an error code, hum
         return;
       }
 
-      emailInput.value = result.text;
+      documentInput.value = result.text;
       updateSummarizeBtn();
       const wordCount = result.text.split(/\s+/).filter(w => w.length > 0).length;
       showToast(`Loaded: ${file.name} (${wordCount} words)`);
