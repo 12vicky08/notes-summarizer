@@ -264,7 +264,7 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: var(--shadow-neon);
 }
 
-.email-textarea {
+.document-textarea {
   width: 100%; min-height: 250px;
   background: rgba(0,0,0,0.4);
   border: none; border-radius: calc(var(--radius-md) - 2px);
@@ -445,7 +445,7 @@ input[type="range"]::-webkit-slider-thumb {
   border-radius: var(--radius-sm); padding: 1rem; margin-bottom: 1rem;
   cursor: pointer; transition: background 0.2s;
 }
-.history-item:hover { background: rgba(255,255,255,0.08); border-color: var(--accent-violet); }
+.history-item:hover { background: rgba(255,255,255,0.08); border-color: var(--accent-violet); transform: translateY(-2px); }
 
 /* Utilities */
 .hidden { display: none !important; }

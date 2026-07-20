@@ -59,11 +59,11 @@
           </div>
           
           <div class="textarea-wrapper">
-            <textarea id="email-input" class="email-textarea" placeholder="Paste your text or drop a file here..." rows="8"></textarea>
+            <textarea id="document-input" class="document-textarea" placeholder="Paste your text or drop a file here..." rows="8"></textarea>
             <div id="drop-zone" class="drop-zone">
               <p>Drop file to analyze</p>
             </div>
-            <input type="file" id="file-input" accept=".txt,.md,.html,.htm,.pdf,.pptx,.doc,.rtf" hidden />
+            <input type="file" id="file-input" accept=".txt,.md,.html,.htm,.pdf,.pptx,.rtf,.csv,.json" hidden />
           </div>
 
           <div class="input-controls">
@@ -99,7 +99,7 @@
             <div class="scanner-beam"></div>
           </div>
           <h3>Synthesizing Data</h3>
-          <p class="loading-step" id="loading-step">Initializing matrices...</p>
+          <p class="loading-step" id="loading-step" aria-live="polite">Initializing matrices...</p>
         </div>
       </div>
     </div>
@@ -179,7 +179,7 @@
       </div>
 
       <div style="text-align:center;margin-top:4rem;">
-        <button id="new-email-btn" class="magnetic-btn btn-secondary" aria-label="Analyze another document" title="Analyze another document">
+        <button id="new-document-btn" class="magnetic-btn btn-secondary" aria-label="Analyze another document" title="Analyze another document">
           Analyze Another
         </button>
       </div>
@@ -201,7 +201,7 @@
   <div id="history-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:1999;opacity:0;pointer-events:none;transition:opacity 0.4s;"></div>
 
   <!-- Toast -->
-  <div id="toast" style="position:fixed;bottom:2rem;left:50%;transform:translate(-50%,20px);background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);padding:0.75rem 2rem;border-radius:99px;opacity:0;pointer-events:none;transition:all 0.4s;z-index:3000;">
+  <div id="toast" aria-live="polite" style="position:fixed;bottom:2rem;left:50%;transform:translate(-50%,20px);background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);padding:0.75rem 2rem;border-radius:99px;opacity:0;pointer-events:none;transition:all 0.4s;z-index:3000;">
     <span id="toast-message"></span>
   </div>
 
