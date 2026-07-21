@@ -10,6 +10,10 @@ const Analyzer = (() => {
     'Business': new Set(['revenue','profit','market','strategy','growth','investment','company','startup','finance','budget','sales','customer','product','management']),
     'Education': new Set(['student','teacher','learning','course','curriculum','exam','study','lecture','university','school','education','knowledge','skill','training']),
     'Health': new Set(['health','medical','patient','treatment','disease','symptom','diagnosis','therapy','clinical','hospital','medicine','wellness','nutrition']),
+    'Finance': new Set(['stock','market','economy','currency','inflation','banking','loan','credit','debt','tax','wealth','accounting','audit']),
+    'Law': new Set(['law','legal','court','judge','lawyer','attorney','justice','trial','jury','verdict','lawsuit','contract','rights','legislation']),
+    'Art': new Set(['art','painting','sculpture','music','dance','theater','film','design','creative','artist','gallery','exhibition','museum','poetry']),
+    'Sports': new Set(['sports','game','match','team','player','coach','tournament','championship','athlete','soccer','basketball','football','baseball','tennis']),
     'General': new Set([]),
   };
 

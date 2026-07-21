@@ -33,6 +33,8 @@
   const toast           = $('toast');
   const toastMessage    = $('toast-message');
   const navbar          = $('navbar');
+  const charCount       = $('char-count');
+  const wordCount       = $('word-count');
 
   // ── Sample Documents ───────────────────────
   const SAMPLES = {
@@ -240,10 +242,18 @@ Error responses should be consistent and informative. Include an error code, hum
 
   // ── Summarize ───────────────────────────────
   function updateSummarizeBtn() {
-    const textLength = documentInput.value.trim().length;
+    const rawText = documentInput.value;
+    const textLength = rawText.trim().length;
     const hasText = textLength > 20;
     summarizeBtn.disabled = !hasText;
     clearBtn.disabled = textLength === 0;
+
+    // Update word and character counts
+    if (charCount && wordCount) {
+      charCount.textContent = rawText.length;
+      const words = rawText.trim().split(/\s+/).filter(w => w.length > 0);
+      wordCount.textContent = words.length;
+    }
   }
 
   async function handleSummarize() {

@@ -18,7 +18,22 @@ const Summarizer = (() => {
     'then','once','here','there','if','while','also','still','much',
     'many','well','back','even','new','now','way','get','got','go',
     'going','make','made','know','like','let','said','say','re','ve',
-    'll','don','t','didn','doesn','isn','wasn','weren','won',
+    'll','don','t','didn','doesn','isn','wasn','weren','won','can','t',
+    'cannot','couldn','t','shouldn','t','wouldn','t','hasn','t','haven','t',
+    'hadn','t','aren','t','am','not','must','mustn','t','need','needn','t',
+    'ought','oughtn','t','mightn','t','shall','shan','t','will','won','t',
+    'yes','no','maybe','perhaps','always','never','often','sometimes',
+    'usually','rarely','seldom','hardly','scarcely','almost','nearly',
+    'quite','rather','somewhat','especially','particularly','specifically',
+    'generally','mostly','largely','mainly','chiefly','principally',
+    'however','moreover','furthermore','nevertheless','nonetheless',
+    'therefore','thus','hence','consequently','accordingly','otherwise',
+    'instead','meanwhile','anyway','anyhow','besides','also','too',
+    'more','most','less','least','many','much','few','fewer',
+    'some','any','all','both','either','neither','each','every',
+    'other','another','such','what','which','who','whom','whose',
+    'when','where','why','how','whether','if','unless','until',
+    'since','because','although','though','even','while','as','so'
   ]);
 
   function tokenizeSentences(text) {

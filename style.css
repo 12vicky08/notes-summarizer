@@ -485,3 +485,37 @@ input[type="range"]::-webkit-slider-thumb {
   --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.05);
   --shadow-neon: 0 0 20px var(--accent-violet-glow);
 }
+
+/* ── Print Styles ────────────────────────── */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .aurora-bg, .navbar, .hero, .input-section, .action-buttons, .icon-btn, #new-document-btn, .history-panel, #history-overlay, #toast {
+    display: none !important;
+  }
+  .results-section {
+    display: block !important;
+  }
+  .glass-panel {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: black !important;
+  }
+  .stats-bar {
+    display: none !important;
+  }
+  .results-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  .side-panel {
+    display: block !important;
+    page-break-before: auto !important;
+  }
+  * {
+    color: black !important;
+  }
+}
