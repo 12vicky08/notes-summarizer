@@ -47,7 +47,7 @@ const Analyzer = (() => {
     if (avgWordsPerSentence > 18 || longWordRatio > 0.25) {
       return { level: 'Intermediate', color: '#f97316', icon: '🟠' };
     }
-    if (avgWordsPerSentence > 12) {
+    if (avgWordsPerSentence > 12 || longWordRatio > 0.15) {
       return { level: 'Moderate', color: '#eab308', icon: '🟡' };
     }
     return { level: 'Easy', color: '#22c55e', icon: '🟢' };
