@@ -14,6 +14,7 @@ const DocParser = (() => {
   function stripHTML(text) {
     let clean = text.replace(/<style[\s\S]*?<\/style>/gi, '');
     clean = clean.replace(/<script[\s\S]*?<\/script>/gi, '');
+    clean = clean.replace(/<svg[\s\S]*?<\/svg>/gi, '');
     clean = clean.replace(/<br\s*\/?>/gi, '\n');
     clean = clean.replace(/<\/(p|div|tr|li|h[1-6])>/gi, '\n');
     clean = clean.replace(/<[^>]+>/g, '');

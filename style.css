@@ -463,6 +463,21 @@ input[type="range"]::-webkit-slider-thumb {
   .input-card { padding: 1.5rem; }
 }
 
+@media (max-width: 600px) {
+  .input-controls {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  .action-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  .slider-group {
+    justify-content: space-between;
+  }
+}
+
 /* ── Light Theme Variables ───────────────── */
 [data-theme="light"] {
   --bg-void: #f8fafc;

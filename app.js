@@ -244,7 +244,7 @@ Error responses should be consistent and informative. Include an error code, hum
   function updateSummarizeBtn() {
     const rawText = documentInput.value;
     const textLength = rawText.trim().length;
-    const hasText = textLength > 20;
+    const hasText = textLength > 50;
     summarizeBtn.disabled = !hasText;
     clearBtn.disabled = textLength === 0;
 
@@ -258,7 +258,7 @@ Error responses should be consistent and informative. Include an error code, hum
 
   async function handleSummarize() {
     const raw = documentInput.value.trim();
-    if (raw.length < 20) return;
+    if (raw.length < 50) return;
 
     // Show loading
     showSection('loading');
