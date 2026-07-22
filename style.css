@@ -339,6 +339,11 @@ input[type="range"]::-webkit-slider-thumb {
 
 .btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: var(--text-secondary); }
 
+.btn-secondary:focus-visible, .magnetic-btn:focus-visible, .sample-btn:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 2px;
+}
+
 /* ── Loading State ───────────────────────── */
 .loading-section {
   display: flex; justify-content: center; align-items: center;

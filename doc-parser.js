@@ -91,6 +91,23 @@ const DocParser = (() => {
 
 
   /**
+   * Remove markdown artifacts (headers, bold, italics, lists, links).
+   */
+  function stripMarkdown(text) {
+    let clean = text.replace(/^#{1,6}\s+(.*)$/gm, '$1'); // Headers
+    clean = clean.replace(/(\*\*|__)(.*?)\1/g, '$2'); // Bold
+    clean = clean.replace(/(\*|_)(.*?)\1/g, '$2'); // Italics
+    clean = clean.replace(/~~(.*?)~~/g, '$1'); // Strikethrough
+    clean = clean.replace(/`([^`]+)`/g, '$1'); // Inline code
+    clean = clean.replace(/```[\s\S]*?```/g, ''); // Code blocks
+    clean = clean.replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1'); // Links
+    clean = clean.replace(/^[\*\-\+]\s+(.*)$/gm, '$1'); // Unordered lists
+    clean = clean.replace(/^\d+\.\s+(.*)$/gm, '$1'); // Ordered lists
+    clean = clean.replace(/^>\s+(.*)$/gm, '$1'); // Blockquotes
+    return clean;
+  }
+
+  /**
    * Remove common artifacts (standalone URLs, mailto links).
    */
   function cleanArtifacts(text) {
@@ -121,10 +138,13 @@ const DocParser = (() => {
     // Step 3: Remove metadata lines from body
     text = removeMetadataLines(text);
 
-    // Step 4: Clean artifacts
+    // Step 4: Clean markdown
+    text = stripMarkdown(text);
+
+    // Step 5: Clean artifacts
     text = cleanArtifacts(text);
 
-    // Step 5: Normalize whitespace
+    // Step 6: Normalize whitespace
     text = normalizeWhitespace(text);
 
     return {

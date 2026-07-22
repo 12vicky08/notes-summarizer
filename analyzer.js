@@ -14,6 +14,9 @@ const Analyzer = (() => {
     'Law': new Set(['law','legal','court','judge','lawyer','attorney','justice','trial','jury','verdict','lawsuit','contract','rights','legislation']),
     'Art': new Set(['art','painting','sculpture','music','dance','theater','film','design','creative','artist','gallery','exhibition','museum','poetry']),
     'Sports': new Set(['sports','game','match','team','player','coach','tournament','championship','athlete','soccer','basketball','football','baseball','tennis']),
+    'History': new Set(['history','historical','ancient','medieval','war','empire','century','past','revolution','artifact','archaeology','civilization']),
+    'Engineering': new Set(['engineering','civil','mechanical','electrical','structural','design','engine','building','bridge','construction','architecture','materials']),
+    'Marketing': new Set(['marketing','advertising','brand','campaign','social','media','seo','audience','promotion','sales','digital','content','strategy','conversion']),
     'General': new Set([]),
   };
 
