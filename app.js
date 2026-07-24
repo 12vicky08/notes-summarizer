@@ -120,7 +120,11 @@ Error responses should be consistent and informative. Include an error code, hum
   // ── Event Binding ───────────────────────────
   function bindEvents() {
     // Input
-    documentInput.addEventListener('input', updateSummarizeBtn);
+    documentInput.addEventListener('input', (e) => {
+      updateSummarizeBtn();
+      e.target.style.height = 'auto';
+      e.target.style.height = e.target.scrollHeight + 'px';
+    });
     summarizeBtn.addEventListener('click', handleSummarize);
     uploadBtn.addEventListener('click', () => fileInput.click());
     clearBtn.addEventListener('click', () => {
@@ -334,7 +338,7 @@ Error responses should be consistent and informative. Include an error code, hum
     $('stat-read-time').textContent = `${timeSaved}min`;
 
     // Topics
-    const topicBadge = $('sentiment-badge');
+    const topicBadge = $('domain-badge');
     topicBadge.textContent = analysis.topics.join(', ');
     topicBadge.style.color = 'hsl(210, 70%, 60%)';
 
@@ -454,11 +458,44 @@ Error responses should be consistent and informative. Include an error code, hum
   // ── Download ────────────────────────────────
   function handleDownload() {
     if (!currentSummary) return;
-    const blob = new Blob([currentSummary.summaryResult.summary], { type: 'text/plain' });
+
+    const analysis = currentSummary.analysis;
+    const dateStr = new Date(currentSummary.timestamp).toLocaleString();
+
+    let mdContent = `# NoteDigest Summary\n\n*Generated on: ${dateStr}*\n\n`;
+
+    // Metadata
+    mdContent += `## Metadata\n`;
+    mdContent += `- **Domain:** ${analysis.topics.join(', ')}\n`;
+    mdContent += `- **Complexity:** ${analysis.complexity.level}\n`;
+    mdContent += `- **Compression:** ${analysis.stats.reductionPercent}%\n\n`;
+
+    // Summary
+    mdContent += `## Summary\n\n`;
+    mdContent += currentSummary.summaryResult.summary + `\n\n`;
+
+    // Key Points
+    if (analysis.keyPoints && analysis.keyPoints.length > 0) {
+      mdContent += `## Extraction Points\n`;
+      analysis.keyPoints.forEach(pt => {
+        mdContent += `- ${pt}\n`;
+      });
+      mdContent += `\n`;
+    }
+
+    // Key Terms
+    if (analysis.keyTerms && analysis.keyTerms.length > 0) {
+      mdContent += `## Key Entities\n`;
+      analysis.keyTerms.forEach(term => {
+        mdContent += `- **${term.term}** (${term.count}x)\n`;
+      });
+    }
+
+    const blob = new Blob([mdContent], { type: 'text/markdown' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'NoteDigest_Summary.txt';
+    a.download = 'NoteDigest_Summary.md';
     a.click();
     URL.revokeObjectURL(url);
   }
@@ -499,7 +536,12 @@ Error responses should be consistent and informative. Include an error code, hum
       const topics = Array.isArray(entry.topics) ? entry.topics.join(', ') : 'General';
       return `
         <div class="history-item" data-id="${entry.id}">
-          <div class="history-item-date">${date}</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div class="history-item-date">${date}</div>
+            <button class="delete-history-item" data-id="${entry.id}" style="background:transparent;border:none;color:var(--text-muted);cursor:pointer;" title="Delete this entry" aria-label="Delete this entry">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
           <div class="history-item-preview">${entry.preview}...</div>
           <div class="history-item-meta">
             <span>${topics}</span>
@@ -508,6 +550,19 @@ Error responses should be consistent and informative. Include an error code, hum
           </div>
         </div>`;
     }).join('');
+
+    // Delete single item
+    historyList.querySelectorAll('.delete-history-item').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const idToRemove = parseInt(btn.dataset.id);
+        const currentHistory = getHistory();
+        const updatedHistory = currentHistory.filter(h => h.id !== idToRemove);
+        localStorage.setItem('notedigest-history', JSON.stringify(updatedHistory));
+        renderHistory();
+        showToast('History entry deleted');
+      });
+    });
 
     // Click to view
     historyList.querySelectorAll('.history-item').forEach(item => {
