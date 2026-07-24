@@ -270,7 +270,8 @@ h1, h2, h3, h4, h5, h6 {
   border: none; border-radius: calc(var(--radius-md) - 2px);
   padding: 1.5rem; color: var(--text-primary);
   font-family: var(--font-body); font-size: 1rem;
-  resize: vertical; outline: none;
+  resize: none; outline: none;
+  overflow: hidden;
 }
 
 .drop-zone {
