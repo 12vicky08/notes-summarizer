@@ -129,8 +129,41 @@ const DocParser = (() => {
 
     const originalLength = rawText.length;
 
-    // Step 1: Strip HTML
-    let text = stripHTML(rawText);
+    let text = rawText;
+    let isDataFormat = false;
+
+    // Detect and parse JSON
+    const trimmed = text.trim();
+    if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
+      try {
+        const obj = JSON.parse(trimmed);
+        const extractValues = (val) => {
+          if (typeof val === 'string') return val;
+          if (typeof val === 'number' || typeof val === 'boolean') return String(val);
+          if (Array.isArray(val)) return val.map(extractValues).join(' ');
+          if (val && typeof val === 'object') return Object.values(val).map(extractValues).join(' ');
+          return '';
+        };
+        text = extractValues(obj);
+        isDataFormat = true;
+      } catch (e) {
+        // Not valid JSON, continue with normal flow
+      }
+    }
+
+    // Detect and parse CSV (basic detection: multiple lines, multiple commas)
+    if (!isDataFormat && text.includes(',') && text.split('\n').length > 1) {
+       const lines = text.split('\n');
+       if (lines[0].split(',').length > 2) {
+          text = lines.map(line => line.split(',').join(' ')).join('\n');
+          isDataFormat = true;
+       }
+    }
+
+    if (!isDataFormat) {
+      // Step 1: Strip HTML
+      text = stripHTML(rawText);
+    }
 
     // Step 2: Extract metadata before removing it
     const metadata = extractMetadata(text);
