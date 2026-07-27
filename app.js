@@ -98,11 +98,27 @@ Error responses should be consistent and informative. Include an error code, hum
 
   // ── Initialization ──────────────────────────
   function init() {
+    registerServiceWorker();
     loadTheme();
     bindEvents();
     bindAdvancedUI();
     updateSummarizeBtn();
     renderHistory();
+  }
+
+  function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').then(
+          (registration) => {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          },
+          (err) => {
+            console.log('ServiceWorker registration failed: ', err);
+          }
+        );
+      });
+    }
   }
 
   // ── Theme ───────────────────────────────────
