@@ -152,7 +152,7 @@ Error responses should be consistent and informative. Include an error code, hum
 
     // Summary length slider
     summaryLength.addEventListener('input', () => {
-      lengthLabel.textContent = `${summaryLength.value} Lines`;
+      lengthLabel.textContent = `${summaryLength.value} Sentences`;
     });
 
     // Keyboard shortcut: Ctrl+Enter to summarize

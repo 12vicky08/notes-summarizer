@@ -1,6 +1,9 @@
 name: Daily Contributions
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     - cron: '0 */6 * * *' # Runs 4 times a day, every 6 hours
   workflow_dispatch:
