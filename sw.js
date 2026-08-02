@@ -31,6 +31,7 @@ self.addEventListener('fetch', (event) => {
         });
         return networkResponse;
       });
+      event.waitUntil(fetchPromise.catch(() => {}));
       return cachedResponse || fetchPromise;
     })
   );
