@@ -114,13 +114,29 @@ const FileReaders = (() => {
       for (const slideFile of slideFiles) {
         const xml = await contents.files[slideFile].async('text');
 
-        // Very basic XML tag stripping for text extraction
-        // PPTX stores text in <a:t> elements mostly
-        const textMatches = xml.match(/<a:t[^>]*>.*?<\/a:t>/g) || [];
-        const slideText = textMatches.map(tag => tag.replace(/<\/?a:t[^>]*>/g, '')).join(' ');
+        // Extract paragraphs to introduce proper newlines
+        const paragraphs = xml.match(/<a:p[^>]*>[\s\S]*?<\/a:p>/g) || [];
+        let slideText = '';
 
-        if (slideText) {
-          fullText += slideText + '\n\n';
+        for (const p of paragraphs) {
+          const textMatches = p.match(/<a:t[^>]*>([\s\S]*?)<\/a:t>/g) || [];
+          const pText = textMatches.map(tag => tag.replace(/<\/?a:t[^>]*>/g, '')).join('');
+
+          if (pText.trim()) {
+            // Basic XML entity decoding
+            const decodedText = pText
+              .replace(/&amp;/g, '&')
+              .replace(/&lt;/g, '<')
+              .replace(/&gt;/g, '>')
+              .replace(/&quot;/g, '"')
+              .replace(/&apos;/g, "'");
+
+            slideText += decodedText.trim() + '\n';
+          }
+        }
+
+        if (slideText.trim()) {
+          fullText += slideText.trim() + '\n\n';
         }
       }
 

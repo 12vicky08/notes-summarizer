@@ -144,20 +144,28 @@ const Summarizer = (() => {
   function summarize(text, numSentences = 3) {
     const sentences = tokenizeSentences(text);
     if (sentences.length === 0) return { summary: text || '', sentences: [], scores: [] };
+
+    // Dynamically adjust numSentences for short texts so we still get a summary
+    let targetSentences = numSentences;
     if (sentences.length <= numSentences) {
-      return {
-        summary: sentences.join(' '),
-        sentences: sentences.map((s, i) => ({ text: s, index: i, score: 1 })),
-        scores: sentences.map(() => 1),
-      };
+      targetSentences = Math.max(1, Math.floor(sentences.length * 0.6)); // max ~60% of original
+      // If the text is really just 1 sentence, we can't compress it further
+      if (sentences.length === 1) {
+        return {
+          summary: sentences[0],
+          sentences: [{ text: sentences[0], index: 0, score: 1 }],
+          scores: [1],
+        };
+      }
     }
+
     const { vectors } = computeTFIDF(sentences);
     const matrix = buildSimilarityMatrix(vectors);
     const rawScores = textRank(matrix);
     const scores = rawScores.map((s, i) => s * positionBias(i, sentences.length));
     const ranked = sentences.map((text, index) => ({ text, index, score: scores[index] }))
       .sort((a, b) => b.score - a.score);
-    const selected = ranked.slice(0, numSentences).sort((a, b) => a.index - b.index);
+    const selected = ranked.slice(0, targetSentences).sort((a, b) => a.index - b.index);
     return { summary: selected.map(s => s.text).join(' '), sentences: selected, scores };
   }
 
