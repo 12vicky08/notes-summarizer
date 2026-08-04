@@ -5,7 +5,8 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 0 * * *' # Runs once a day at midnight UTC
+    # Runs once a day at midnight UTC to fulfill the 3-5 daily commits requirement
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
 jobs:
@@ -16,21 +17,24 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-      - name: Generate 3-5 commits and push
+      - name: Generate 3-5 commits and push to fill contributions
         run: |
+          # Set up Git author to correctly credit the user's contribution graph
           git config --global user.name "${{ github.actor }}"
           git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
 
-          # Generate random number between 3 and 5
+          # Generate a random number of commits between 3 and 5 as requested
           NUM_COMMITS=$(( ( RANDOM % 3 ) + 3 ))
-          echo "Generating $NUM_COMMITS commits..."
+          echo "Generating $NUM_COMMITS commits for today's contributions..."
 
           for i in $(seq 1 $NUM_COMMITS); do
-            echo "Commit $i on $(date)" > .github/contribution_tracker.txt
+            echo "Contribution commit $i on $(date)" > .github/contribution_tracker.txt
             git add .github/contribution_tracker.txt
-            git commit -m "Automated contribution commit $i/$(date +'%Y-%m-%d')"
-            # sleep briefly to ensure distinct timestamps just in case
+            git commit -m "chore(contributions): automated daily contribution $i/$(date +'%Y-%m-%d')"
+            # sleep briefly to ensure distinct timestamps
             sleep 1
           done
 

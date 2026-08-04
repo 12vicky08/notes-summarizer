@@ -146,6 +146,7 @@ Error responses should be consistent and informative. Include an error code, hum
     uploadBtn.addEventListener('click', () => fileInput.click());
     clearBtn.addEventListener('click', () => {
       documentInput.value = '';
+      fileInput.value = '';
       updateSummarizeBtn();
       documentInput.focus();
     });
@@ -407,6 +408,7 @@ Error responses should be consistent and informative. Include an error code, hum
   function handleFileUpload(e) {
     const file = e.target.files[0];
     if (file) processFile(file);
+    e.target.value = '';
   }
 
   function handleDrop(e) {
