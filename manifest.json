@@ -4,6 +4,7 @@
   "description": "NoteDigest: A premium AI notes summarizer.",
   "start_url": "./",
   "display": "standalone",
+  "categories": ["productivity", "utilities"],
   "background_color": "#05050a",
   "theme_color": "#06b6d4",
   "icons": [
