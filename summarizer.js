@@ -47,7 +47,8 @@ const Summarizer = (() => {
     }
     processed = processed.replace(/(\d)\.(\d)/g, '$1{{DOT}}$2');
     processed = processed.replace(/\.{2,}/g, m => m.replace(/\./g, '{{DOT}}'));
-    const raw = processed.split(/(?<=[.!?])\s+(?=[A-Z"'])|(?<=[.!?])\s*$|\n+/);
+    const splitProcessed = processed.replace(/([.!?])\s+(?=[A-Z"'])/g, '$1{{SPLIT}}').replace(/([.!?])\s*$/g, '$1{{SPLIT}}').replace(/\n+/g, '{{SPLIT}}');
+    const raw = splitProcessed.split('{{SPLIT}}').filter(s => s.trim().length > 0);
     return raw
       .map(s => s.replace(/\{\{DOT\}\}/g, '.').trim())
       .filter(s => s.split(/\s+/).filter(w => w.length > 0).length >= 3);
