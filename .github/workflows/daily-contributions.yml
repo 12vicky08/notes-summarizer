@@ -35,7 +35,7 @@ jobs:
             git add .github/contribution_tracker.txt
             git commit -m "chore(contributions): automated daily contribution $i/$(date +'%Y-%m-%d')"
             # sleep briefly to ensure distinct timestamps
-            sleep 1
+            sleep 2
           done
 
           git push
