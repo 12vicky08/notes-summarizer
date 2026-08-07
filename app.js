@@ -109,7 +109,7 @@ Error responses should be consistent and informative. Include an error code, hum
   function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').then(
+        navigator.serviceWorker.register('./sw.js').then(
           (registration) => {
             console.log('ServiceWorker registration successful with scope: ', registration.scope);
           }
