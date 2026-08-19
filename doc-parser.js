@@ -24,6 +24,8 @@ const DocParser = (() => {
       '&quot;': '"', '&#39;': "'", '&apos;': "'",
       '&nbsp;': ' ', '&mdash;': '—', '&ndash;': '–',
       '&hellip;': '…', '&copy;': '©', '&reg;': '®',
+      '&pound;': '£', '&euro;': '€', '&yen;': '¥',
+      '&cent;': '¢',
     };
     for (const [entity, char] of Object.entries(entities)) {
       clean = clean.replace(new RegExp(entity, 'gi'), char);
