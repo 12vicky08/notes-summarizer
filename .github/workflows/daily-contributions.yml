@@ -21,21 +21,9 @@ jobs:
           fetch-depth: 0
 
       - name: Generate 3-5 commits and push to fill contributions
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_ACTOR_ID: ${{ github.actor_id }}
         run: |
-          # Set up Git author to correctly credit the user's contribution graph
-          git config --global user.name "${{ github.actor }}"
-          git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
-
-          # Generate a random number of commits between 3 and 5 as requested
-          NUM_COMMITS=$(( ( RANDOM % 3 ) + 3 ))
-          echo "Generating $NUM_COMMITS commits for today's contributions..."
-
-          for i in $(seq 1 $NUM_COMMITS); do
-            echo "Contribution commit $i on $(date)" > .github/contribution_tracker.txt
-            git add .github/contribution_tracker.txt
-            git commit -m "chore(contributions): automated daily contribution $i/$(date +'%Y-%m-%d')"
-            # sleep briefly to ensure distinct timestamps
-            sleep 1
-          done
-
+          ./generate_commits.sh
           git push
