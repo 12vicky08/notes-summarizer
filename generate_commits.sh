@@ -1,5 +1,8 @@
 #!/bin/bash
 
+GITHUB_ACTOR="${GITHUB_ACTOR:-12vicky08}"
+GITHUB_ACTOR_ID="${GITHUB_ACTOR_ID:-183066585}"
+
 # Set up Git author to correctly credit the user's contribution graph
 git config --global user.name "${GITHUB_ACTOR}"
 git config --global user.email "${GITHUB_ACTOR_ID}+${GITHUB_ACTOR}@users.noreply.github.com"
