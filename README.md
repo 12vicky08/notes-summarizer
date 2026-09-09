@@ -12,6 +12,7 @@ Built with privacy as the core philosophy, **everything runs 100% in your browse
   - Web Pages (`.html`, `.htm`)
   - PDFs (`.pdf` via PDF.js)
   - Presentations (`.pptx` via JSZip)
+  - Word Documents (`.docx` via mammoth.js)
 - 🧠 **Smart NLP Synthesis**: Built upon an extraction-based TextRank algorithm with TF-IDF vectorization. 
 - 📊 **Insight Extraction**: Automatically detects document domains, assesses reading complexity, and extracts key entities and concepts.
 - 🔒 **Absolute Privacy**: Zero backend servers. The NLP pipeline runs entirely inside your browser's local environment.
@@ -30,6 +31,7 @@ NoteDigest is a pure frontend application relying on standard Web APIs and robus
 - **Dependencies (Loaded via CDN)**:
   - [PDF.js](https://mozilla.github.io/pdf.js/): For client-side PDF parsing.
   - [JSZip](https://stuk.github.io/jszip/): For unpacking and parsing PowerPoint (PPTX/OpenXML) files.
+  - [mammoth.js](https://github.com/mwilliamson/mammoth.js): For extracting text from DOCX files.
 
 ## Local Development
 
