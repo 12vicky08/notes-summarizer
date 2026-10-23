@@ -417,10 +417,10 @@ Error responses should be consistent and informative. Include an error code, hum
   }
 
   async function processFile(file) {
-    const valid = ['.txt', '.md', '.html', '.htm', '.rtf', '.pdf', '.pptx', '.ppt', '.csv', '.json'];
+    const valid = ['.txt', '.md', '.html', '.htm', '.rtf', '.pdf', '.pptx', '.ppt', '.csv', '.json', '.docx'];
     const ext = '.' + file.name.split('.').pop().toLowerCase();
     if (!valid.includes(ext)) {
-      showToast('Unsupported file type. Use .pdf, .pptx, .txt, .md, .html, .csv, or .json.');
+      showToast('Unsupported file type. Use .pdf, .pptx, .docx, .txt, .md, .html, .csv, or .json.');
       return;
     }
 
