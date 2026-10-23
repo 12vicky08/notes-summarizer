@@ -22,6 +22,7 @@
   const summaryContent  = $('summary-content');
   const copySummaryBtn  = $('copy-summary');
   const downloadSummaryBtn = $('download-summary');
+  const printSummaryBtn = $('print-summary');
   const newDocumentBtn     = $('new-document-btn');
   const themeToggle     = $('theme-toggle');
   const historyToggle   = $('history-toggle');
@@ -197,6 +198,7 @@ Error responses should be consistent and informative. Include an error code, hum
     // Copy
     copySummaryBtn.addEventListener('click', handleCopy);
     if (downloadSummaryBtn) downloadSummaryBtn.addEventListener('click', handleDownload);
+    if (printSummaryBtn) printSummaryBtn.addEventListener('click', () => window.print());
 
     // New document
     newDocumentBtn.addEventListener('click', resetToInput);
@@ -624,9 +626,11 @@ Error responses should be consistent and informative. Include an error code, hum
     historyOverlay.classList.remove('open');
   }
   function handleClearHistory() {
-    localStorage.removeItem('notedigest-history');
-    renderHistory();
-    showToast('History cleared');
+    if (window.confirm('Are you sure you want to clear your archive?')) {
+      localStorage.removeItem('notedigest-history');
+      renderHistory();
+      showToast('History cleared');
+    }
   }
 
   // ── Toast ───────────────────────────────────
