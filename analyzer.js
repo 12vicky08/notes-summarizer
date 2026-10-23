@@ -5,8 +5,8 @@
 const Analyzer = (() => {
 
   const TOPIC_KEYWORDS = {
-    'Technology': new Set(['software','hardware','computer','algorithm','data','code','programming','api','server','database','cloud','ai','machine','learning','network','internet','digital','cyber','tech','framework','library','frontend','backend','web']),
-    'Science': new Set(['research','experiment','hypothesis','theory','biology','chemistry','physics','molecule','cell','atom','genome','evolution','quantum','scientific']),
+    'Technology': new Set(['software','hardware','computer','algorithm','data','code','programming','api','server','database','cloud','ai','machine','learning','network','internet','digital','cyber','tech','framework','library','frontend','backend','web','blockchain','crypto','robotics']),
+    'Science': new Set(['research','experiment','hypothesis','theory','biology','chemistry','physics','molecule','cell','atom','genome','evolution','quantum','scientific','astronomy','space','ecosystem']),
     'Business': new Set(['revenue','profit','market','strategy','growth','investment','company','startup','finance','budget','sales','customer','product','management']),
     'Education': new Set(['student','teacher','learning','course','curriculum','exam','study','lecture','university','school','education','knowledge','skill','training']),
     'Health': new Set(['health','medical','patient','treatment','disease','symptom','diagnosis','therapy','clinical','hospital','medicine','wellness','nutrition']),
