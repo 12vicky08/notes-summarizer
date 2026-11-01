@@ -1,4 +1,4 @@
-const CACHE_NAME = 'notedigest-v1';
+const CACHE_NAME = 'notedigest-v2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -53,7 +53,7 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.filter((name) => name !== CACHE_NAME)
-          .map((name) => caches.delete(name))
+          .map((name) => caches.delete(name).catch(err => console.error(err)))
       );
     })
   );
