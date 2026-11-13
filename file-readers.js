@@ -27,8 +27,10 @@ const FileReaders = (() => {
       return await readAsPDF(file);
     } else if (['.pptx', '.ppt'].includes(ext)) {
       return await readAsPPTX(file);
+    } else if (['.docx', '.doc'].includes(ext)) {
+      return await readAsDOCX(file);
     } else {
-      throw new Error(`Unsupported file type: ${ext}. Supported formats include text, HTML, PDF, and PPTX.`);
+      throw new Error(`Unsupported file type: ${ext}. Supported formats include text, HTML, PDF, PPTX, and DOCX.`);
     }
   }
 
@@ -152,6 +154,33 @@ const FileReaders = (() => {
 
     } catch (err) {
       throw new Error("Error parsing PPTX file: " + err.message);
+    }
+  }
+
+  /**
+   * Reads a DOCX file using mammoth.js
+   * @param {File} file
+   */
+  async function readAsDOCX(file) {
+    if (typeof mammoth === 'undefined') {
+      throw new Error("Mammoth library is not loaded.");
+    }
+
+    try {
+      const arrayBuffer = await file.arrayBuffer();
+      const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
+
+      if (!result.value || !result.value.trim()) {
+        throw new Error("No readable text found in DOCX");
+      }
+
+      return {
+        text: result.value,
+        filename: file.name,
+        type: 'docx'
+      };
+    } catch (err) {
+      throw new Error("Error parsing DOCX file: " + err.message);
     }
   }
 
